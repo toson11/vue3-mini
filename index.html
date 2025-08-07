@@ -12,7 +12,10 @@
     const state = reactive({ count: 0 });
 
     effect(() => {
-      console.log("Count is:", state.count);
+      // console.log("Count is:", state.count);
+      // 此处演示响应式系统中递归触发 effect 的问题：
+      // 在 effect 内部修改依赖数据（state.count），会导致 effect 不断重新执行，形成无限循环。
+      state.count++
     });
     
     state.count++;

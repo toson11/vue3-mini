@@ -25,7 +25,7 @@ const track = (target, key) => {
 
 
 const trigger = (target, key) => {
-  console.log("🚀 ~ trigger ~ effect:", activeEffect)
+  console.log("🚀 ~ trigger ~ key:", key)
   // 触发更新逻辑
   const deps = effects.get(target);
   if (!deps) return;
@@ -34,6 +34,9 @@ const trigger = (target, key) => {
   if (!effectsToRun) return;
 
   effectsToRun.forEach(fn => {
+    // 解决递归触发的问题
+    if (fn === activeEffect) return;
+    console.log("🚀 ~ trigger ~ fn:", fn)
     fn();
   });
 }
