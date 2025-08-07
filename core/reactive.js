@@ -6,9 +6,10 @@ const reactive = (obj) => {
       return Reflect.get(target, key);
     },
     set(target, key, value) {
-      // 触发更新
+      // 先修改数据，再触发更新
+      const result = Reflect.set(target, key, value);
       trigger(target, key);
-      return Reflect.set(target, key, value);
+      return result;
     }
   });
 };
