@@ -9,15 +9,22 @@
 </head>
 <body>
   <script>
-    const state = reactive({ count: 0 });
+    const state = reactive({ count: 0, name: '', showCount: true });
 
     effect(() => {
       // console.log("Count is:", state.count);
+
       // 此处演示响应式系统中递归触发 effect 的问题：
       // 在 effect 内部修改依赖数据（state.count），会导致 effect 不断重新执行，形成无限循环。
-      state.count++
+      // state.count++
+
+      // 解决条件判断依赖收集问题，没有满足条件的分支，不应该触发 effect
+      // 当 state.showCount 为 false 时，state.count 不参与计算，不应该重新触发effect
+      state.name = '名称' + (state.showCount ? `(${state.count})` : '');
+      console.log("🚀 ~ state.name:", state.name)
     });
     
+    state.showCount = false;
     state.count++;
   </script>
 
